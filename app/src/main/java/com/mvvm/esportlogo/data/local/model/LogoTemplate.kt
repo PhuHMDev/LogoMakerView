@@ -1,0 +1,32 @@
+package com.mvvm.esportlogo.data.local.model
+
+data class LogoTemplate(
+    var backgroundColor: String,
+    var dateTime: Long,
+    var fontName: String,
+    var fontPath: String,
+    var fontSize: Float,
+    var imageName: String,
+    var imagePosition: String,
+    var isNew: Boolean,
+    var isPremium: Boolean,
+    var isSwap: Boolean,
+    var letterSpacing: Float,
+    var logoId: Int,
+    var logoName: String,
+    var mascotColors: List<String>,
+    var outlineColor: String,
+    var outlineWidth: Float,
+    var previewWidth: Float,
+    var strokeColor: String,
+    var strokeWidth: Float,
+    var text3dX: Float,
+    var textAngle: Float,
+    var textCenterX: Float,
+    var textCenterY: Float,
+    var textColor: String,
+    var textCurve: Float,
+    var textScaleX: Float,
+    var textScaleY: Float,
+    var thumbImageName: String
+)
