@@ -5,4 +5,5 @@
     <string name="txt_outline">Outline</string>
     <string name="txt_background">Background</string>
     <string name="txt_text_size">Text Size</string>
+    <string name="txt_curve">Curve</string>
 </resources>

@@ -14,13 +14,22 @@
         android:theme="@style/Theme.EsportLogo"
         tools:targetApi="31">
         <activity
-            android:name=".components.ui.editing.EditingActivity"
+            android:name=".components.ui.preview.PreviewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".components.ui.editing.EditingActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 
