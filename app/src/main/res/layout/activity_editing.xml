@@ -8,131 +8,13 @@
     android:background="@color/primary"
     tools:context=".components.ui.editing.EditingActivity">
 
-    <com.mvvm.esportlogo.components.widget.template.LogoTemplateView
-        android:id="@+id/templateView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_16sdp"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/secondary" />
 
-    <LinearLayout
-        android:id="@+id/lnSb1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/templateView">
-
-        <TextView
-            android:id="@+id/textView"
-            style="@style/TextStylePrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_text_size"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
-
-        <SeekBar
-            android:max="700"
-            android:id="@+id/sbTextSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:progressBackgroundTint="@color/white"
-            android:progressTint="@color/white"
-            android:min="10"
-            android:thumbTint="@color/secondary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lnSb2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/lnSb1">
-
-        <TextView
-            style="@style/TextStylePrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3dx"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
-
-        <SeekBar
-            android:max="80"
-            android:id="@+id/sb3dx"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:progressBackgroundTint="@color/white"
-            android:progressTint="@color/white"
-            android:min="-80"
-            android:thumbTint="@color/secondary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ln3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/lnSb2">
-
-        <TextView
-            style="@style/TextStylePrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LetterSpacing"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
-
-        <SeekBar
-            android:max="100"
-            android:id="@+id/sbLetterSpacing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:progressBackgroundTint="@color/white"
-            android:progressTint="@color/white"
-            android:min="-30"
-            android:thumbTint="@color/secondary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/ln3">
-
-        <TextView
-            style="@style/TextStylePrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Curve"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
-
-        <SeekBar
-            android:max="100"
-            android:id="@+id/sbCurve"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:progressBackgroundTint="@color/white"
-            android:progressTint="@color/white"
-            android:min="-100"
-            android:thumbTint="@color/secondary" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="10"
+        tools:listitem="@layout/layout_item_preview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

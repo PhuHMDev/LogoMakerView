@@ -126,9 +126,8 @@ class TemplateDrawView @JvmOverloads constructor(
         textScaleY = logoTemplate.textScaleY
 
         imageMatrix.set(imagePosition.toMatrix())
-        if(imageBitmap == null) {
-            imageBitmap = context.getBitmapFromAssets("logo/$imageName")
-        }
+        imageBitmap = context.getBitmapFromAssets("logo/$imageName")
+        imageOutlineBitmapPath = null
 
         textTypeface = Typeface.createFromAsset(context.assets, "fonts/$fontName")
         textPaint.apply {
