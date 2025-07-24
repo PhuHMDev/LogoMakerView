@@ -1,6 +1,7 @@
 package com.mvvm.esportlogo.components.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,9 @@ import com.mvvm.esportlogo.databinding.LayoutItemPreviewBinding
 class TemplateAdapter  : ListAdapter<LogoTemplate, TemplateAdapter.TemplateViewHolder>(TemplateDiffCallback()) {
 
     inner class TemplateViewHolder(private val binding: LayoutItemPreviewBinding) : ViewHolder(binding.root) {
+
         fun bindData(logoTemplate: LogoTemplate) {
+            itemView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
             binding.drawView.initTemplate(logoTemplate)
         }
     }

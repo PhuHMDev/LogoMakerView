@@ -24,6 +24,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -42,6 +43,9 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+    }
+    lint {
+        disable += "NullSafeMutableLiveData"
     }
 }
 
@@ -69,4 +73,6 @@ dependencies {
 
     // Gson
     implementation (libs.gson)
+
+    implementation ("com.quickbirdstudios:opencv:4.5.2")
 }

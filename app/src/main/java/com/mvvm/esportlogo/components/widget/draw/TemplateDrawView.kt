@@ -25,7 +25,7 @@ import com.mvvm.esportlogo.R
 import com.mvvm.esportlogo.data.local.model.LogoTemplate
 import com.mvvm.esportlogo.extensions.dp
 import com.mvvm.esportlogo.extensions.getBitmapFromAssets
-import com.mvvm.esportlogo.extensions.getSolidPathFromBitmap
+import com.mvvm.esportlogo.extensions.getPathFromOpenCV
 import com.mvvm.esportlogo.extensions.toMatrix
 import com.mvvm.esportlogo.extensions.toMatrixString
 import kotlin.math.abs
@@ -205,7 +205,7 @@ class TemplateDrawView @JvmOverloads constructor(
     private fun drawOutlineImage(canvas: Canvas) {
         imageBitmap?.let { bitmap ->
             if (imageOutlineBitmapPath == null) {
-                imageOutlineBitmapPath = bitmap.getSolidPathFromBitmap()
+                imageOutlineBitmapPath = bitmap.getPathFromOpenCV()
             }
 
             imageOutlineBitmapPath?.let { path ->

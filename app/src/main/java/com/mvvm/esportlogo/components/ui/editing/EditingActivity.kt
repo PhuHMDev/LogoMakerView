@@ -15,6 +15,6 @@ class EditingActivity : BaseActivity<ActivityEditingBinding>(ActivityEditingBind
             adapter.submitList(it)
         }
         binding.rcv.adapter = adapter
-        binding.rcv.setHasFixedSize(false)
+        binding.rcv.setHasFixedSize(true)
     }
 }

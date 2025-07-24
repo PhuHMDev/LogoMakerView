@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvvm.esportlogo.data.local.model.LogoTemplate
 import com.mvvm.esportlogo.data.local.repository.LogoTemplateRepositoryImpl
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,15 +19,9 @@ class EditingViewModel : ViewModel() {
     }
 
     private fun getLogoTemplate() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val list = LogoTemplateRepositoryImpl.getLogoTemplateList()
-                .sortedBy { it.imageName } // <-- Sắp xếp theo tên
-
             _logo.value = list
-
-            list.forEach {
-                Log.d("1111111111111111", "getLogoTemplate: ${it.imageName}")
-            }
         }
     }
 
