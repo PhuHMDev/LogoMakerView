@@ -15,10 +15,12 @@ import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import com.mvvm.esportlogo.R
 import com.mvvm.esportlogo.data.local.model.LogoTemplate
 import com.mvvm.esportlogo.extensions.dp
@@ -79,6 +81,13 @@ class TemplateDrawView @JvmOverloads constructor(
     private var currentViewType = ViewType.NONE
     private var mGestureDetector: GestureDetector? = null
     var isTouchEnable: Boolean = false
+
+    private var lastTouchX = 0f
+    private var lastTouchY = 0f
+    private var oldDistance = 0f
+    private var oldAngle = 0f
+    private var isDragging = false
+    private var isZooming = false
 
     private var logoTemplate: LogoTemplate? = null
 
@@ -150,6 +159,20 @@ class TemplateDrawView @JvmOverloads constructor(
             textSize = fontSize
             typeface = textTypeface
             letterSpacing = this@TemplateDrawView.letterSpacing
+        }
+
+        val luminance = ColorUtils.calculateLuminance(Color.parseColor(backgroundColor))
+        val isBackgroundLight = luminance > 0.5
+
+        val guideLineColor = if (isBackgroundLight) {
+            ColorUtils.setAlphaComponent(Color.BLACK, (0.4f * 255).toInt())
+        } else {
+            ColorUtils.setAlphaComponent(Color.WHITE, (0.4f * 255).toInt())
+        }
+
+        guideLinePaint.apply {
+            strokeWidth = 2f.dp
+            color = guideLineColor
         }
 
         invalidate()
@@ -455,13 +478,6 @@ class TemplateDrawView @JvmOverloads constructor(
         invalidate()
     }
 
-    private var lastTouchX = 0f
-    private var lastTouchY = 0f
-    private var oldDistance = 0f
-    private var oldAngle = 0f
-    private var isDragging = false
-    private var isZooming = false
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (!isTouchEnable || event == null) return false
@@ -493,11 +509,53 @@ class TemplateDrawView @JvmOverloads constructor(
                     val dy = (event.y - lastTouchY) / getScaleFactor()
 
                     when (currentViewType) {
-                        ViewType.IMAGE -> imageMatrix.postTranslate(dx, dy)
+                        ViewType.IMAGE -> {
+                            imageMatrix.postTranslate(dx, dy)
+
+                            val imageCenter = getImageCenter()
+
+                            val scale = getScaleFactor()
+                            val snapX = centerX / scale
+                            val snapY = centerY / scale
+
+                            val snapThreshold = 10f
+
+                            val diffX = snapX - imageCenter.x
+                            isVerticalGuideVisible = abs(diffX) <= snapThreshold
+                            if (isVerticalGuideVisible) {
+                                imageMatrix.postTranslate(diffX, 0f)
+                            }
+
+                            val diffY = snapY - imageCenter.y
+                            isHorizontalGuideVisible = abs(diffY) <= snapThreshold
+                            if (isHorizontalGuideVisible) {
+                                imageMatrix.postTranslate(0f, diffY)
+                            }
+                        }
+
                         ViewType.TEXT -> {
                             textCenterX += dx
                             textCenterY += dy
+
+                            val scale = getScaleFactor()
+                            val snapX = centerX / scale
+                            val snapY = centerY / scale
+
+                            val snapThreshold = 10f
+
+                            val diffX = snapX - textCenterX
+                            isVerticalGuideVisible = abs(diffX) <= snapThreshold
+                            if (isVerticalGuideVisible) {
+                                textCenterX = snapX
+                            }
+
+                            val diffY = snapY - textCenterY
+                            isHorizontalGuideVisible = abs(diffY) <= snapThreshold
+                            if (isHorizontalGuideVisible) {
+                                textCenterY = snapY
+                            }
                         }
+
 
                         else -> {}
                     }
@@ -576,6 +634,11 @@ class TemplateDrawView @JvmOverloads constructor(
                 else -> currentViewType
             }
 
+            return true
+        }
+
+        override fun onDoubleTap(e: MotionEvent): Boolean {
+            Log.d("TemplateView", "onDoubleTap: ")
             return true
         }
     }
