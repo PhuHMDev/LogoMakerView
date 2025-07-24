@@ -28,38 +28,57 @@ fun String.toMatrix(): Matrix {
     return matrix
 }
 
-fun Bitmap.getSolidPathFromBitmap(): Path {
-    val width = width
-    val height = height
-    val pixels = IntArray(width * height)
-    getPixels(pixels, 0, width, 0, 0, width, height)
+fun Matrix.toMatrixString(): String {
+    val values = FloatArray(9)
+    this.getValues(values)
+    return values.joinToString(",")
+}
 
+
+fun Bitmap.getSolidPathFromBitmap(): Path {
+    val downscaleFactor = 0.6f
+    val scaledBitmap = Bitmap.createScaledBitmap(
+        this,
+        (width * downscaleFactor).toInt(),
+        (height * downscaleFactor).toInt(),
+        true
+    )
+
+    val width = scaledBitmap.width
+    val height = scaledBitmap.height
+    val pixels = IntArray(width)
     val region = Region()
-    val tempRegion = Region()
     val rect = Rect()
 
     for (y in 0 until height) {
+        scaledBitmap.getPixels(pixels, 0, width, 0, y, width, 1)
+
         var startX = -1
         for (x in 0 until width) {
-            val alpha = pixels[y * width + x] ushr 24
+            val alpha = pixels[x] ushr 24
             if (alpha > 0) {
                 if (startX == -1) startX = x
             } else if (startX != -1) {
                 rect.set(startX, y, x, y + 1)
-                tempRegion.set(rect)
-                region.op(tempRegion, Region.Op.UNION)
+                region.op(rect, Region.Op.UNION)
                 startX = -1
             }
         }
 
         if (startX != -1) {
             rect.set(startX, y, width, y + 1)
-            tempRegion.set(rect)
-            region.op(tempRegion, Region.Op.UNION)
+            region.op(rect, Region.Op.UNION)
         }
     }
 
     val path = Path()
     region.getBoundaryPath(path)
+
+    val matrix = Matrix().apply {
+        setScale(1 / downscaleFactor, 1 / downscaleFactor)
+    }
+    path.transform(matrix)
+
     return path
 }
+
